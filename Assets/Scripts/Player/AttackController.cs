@@ -11,7 +11,7 @@ public class AttackController : MonoBehaviour
     private bool _isAttacking = false;
     private Animator _animator;
 
-    private float _attackTimerMax = 1.0f;
+    private float _attackTimerMax = 0.65f;
     private float _attackTimer = 0.0f;
     
     void Start()
