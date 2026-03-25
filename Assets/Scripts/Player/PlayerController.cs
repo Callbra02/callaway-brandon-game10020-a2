@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
+    private BoxCollider2D _collider;
     
     [SerializeField] private InputActionReference _moveAction;
     [SerializeField] private InputActionReference _jumpAction;
     [SerializeField] private InputActionReference _interactAction;
+    [SerializeField] private InputActionReference _crouchAction;
 
     [SerializeField] private float _moveSpeed = 20.0f;
     [SerializeField] private float _jumpForce = 10.5f;
@@ -19,15 +21,31 @@ public class PlayerController : MonoBehaviour
     
     private Vector2 _wishVelocity;
     private Vector2 _moveInput;
+    private Vector2 _defaultColliderSize;
+    private Vector2 _defaultColliderOffset;
+    public float crouchHeightMultiplier = 0.5f;
+    public float crouchOffsetMultiplier = 0.0f;
+    
     private bool _isGrounded = false;
     private bool _doJump = false;
+    private bool _isCrouching = false;
     public bool canMove = true;
     
     private void Start()
     {
+        // Get references
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _animator = GetComponentInChildren<Animator>();
+        _collider = GetComponentInChildren<BoxCollider2D>();
+        
+        // Bind actions to respective bools
+        _crouchAction.action.started += ctx  => _isCrouching = true;
+        _crouchAction.action.canceled += ctx => _isCrouching = false;
+        
+        // Get collider defaults
+        _defaultColliderSize = _collider.size;
+        _defaultColliderOffset = _collider.offset;
     }
 
     private void Update()
@@ -35,6 +53,7 @@ public class PlayerController : MonoBehaviour
         HandleInput();
         CheckGround();
         HandleJump();
+        HandleCrouch();
         HandleSprite();
     }
 
@@ -61,6 +80,29 @@ public class PlayerController : MonoBehaviour
         if (_jumpAction.action.WasPressedThisFrame())
         {
             _doJump = true;
+        }
+    }
+
+    private void HandleCrouch()
+    {
+        if (!_isGrounded)
+        {
+            return;
+        }
+        
+        if (_isCrouching)
+        {
+            canMove = false;
+            _collider.size = new Vector2(_defaultColliderSize.x, _defaultColliderSize.y * crouchHeightMultiplier);
+            _collider.offset = new Vector2(_defaultColliderOffset.x, -0.79086f);
+            _animator.SetBool("isCrouching", true);
+        }
+        else
+        {
+            canMove = true;
+            _collider.size = _defaultColliderSize;
+            _collider.offset = _defaultColliderOffset;
+            _animator.SetBool("isCrouching", false);
         }
     }
 
