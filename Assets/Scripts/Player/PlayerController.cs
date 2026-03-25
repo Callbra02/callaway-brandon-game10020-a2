@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private void HandleJump()
     {
         // Break from logic if we are not grounded - prevent double jumping
+        // Break if we can't move either
         if (!_isGrounded || !canMove)
             return;
 
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour
     private void HandleSprite()
     {
 
-        // Break from logic if player is not moving ( prevents swapping back to sprite )
+        // Update isMoving bool according to movement velocity
         if (_wishVelocity.x == 0)
         {
             _animator.SetBool("isMoving", false);
