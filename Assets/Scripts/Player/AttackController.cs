@@ -14,6 +14,7 @@ public class AttackController : MonoBehaviour
     private float _attackTimerMax = 0.65f;
     private float _attackTimer = 0.0f;
     
+    
     void Start()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -22,6 +23,7 @@ public class AttackController : MonoBehaviour
 
     void Update()
     {
+        _playerController.isAttacking = _isAttacking;
         HandleAttack();
         HandleSprite();
     }

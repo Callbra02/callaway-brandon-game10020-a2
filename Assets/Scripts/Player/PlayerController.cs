@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded = false;
     private bool _doJump = false;
     private bool _isCrouching = false;
+    public bool isAttacking = false;
     public bool canMove = true;
     
     private void Start()
@@ -46,6 +47,12 @@ public class PlayerController : MonoBehaviour
         // Get collider defaults
         _defaultColliderSize = _collider.size;
         _defaultColliderOffset = _collider.offset;
+    }
+    
+    private void FixedUpdate()
+    {
+        // Handle rigidbody velocity modification within the physics update loop
+        HandleMovement();
     }
 
     private void Update()
@@ -85,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCrouch()
     {
-        if (!_isGrounded)
+        if (!_isGrounded || isAttacking)
         {
             return;
         }
@@ -120,7 +127,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Adjust sprite position and flip x accordingly
-        // Im just too lazy to fix the imported sprites -Brandon
+        // Im just too lazy to fix the imported sprites
         if (_wishVelocity.x < 0)
         {
             _spriteRenderer.flipX = true;
@@ -133,11 +140,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        // Handle rigidbody velocity modification within the physics update loop
-        HandleMovement();
-    }
+
     
     private void HandleInput()
     {
@@ -149,7 +152,7 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         // Break from logic if player cannot move
-        if (!canMove)
+        if (!canMove || isAttacking)
         {
             _rigidbody.velocity = new Vector2(0.0f, _rigidbody.velocity.y);
             return;

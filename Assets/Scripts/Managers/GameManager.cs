@@ -18,11 +18,13 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
     }
     
     void Start()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
