@@ -11,9 +11,11 @@ public class UIManager : MonoBehaviour
     
     void Start()
     {
+        // Set inventory to unactive;
         inventoryObject.SetActive(false);
     }
 
+    // Toggle inventory oject activity
     public void SetInventoryActive()
     {
         _isInventoryDisplayed = !_isInventoryDisplayed;

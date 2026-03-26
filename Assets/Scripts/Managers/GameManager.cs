@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public UIManager uiManager;
 
     private bool _toggleTimeScale = false;
+    private bool _toggleCursorLock = true;
     
 
     // Singleton 
@@ -36,11 +37,7 @@ public class GameManager : MonoBehaviour
         // Event Listeners
         inventoryManager.OnDisplayed.AddListener(uiManager.SetInventoryActive);
         inventoryManager.OnDisplayed.AddListener(ToggleTimeScale);
-    }
-
-    void Update()
-    {
-        
+        inventoryManager.OnDisplayed.AddListener(ToggleCursorLock);
     }
 
     // Swaps timescale from 1.0f to 0.0f
@@ -51,5 +48,11 @@ public class GameManager : MonoBehaviour
         float currentTimeScale = _toggleTimeScale ? 0.0f : 1.0f;
 
         Time.timeScale = currentTimeScale;
+    }
+
+    public void ToggleCursorLock()
+    {
+        _toggleCursorLock = !_toggleCursorLock;
+        Cursor.lockState = _toggleCursorLock ? CursorLockMode.Locked : CursorLockMode.None;
     }
 }
