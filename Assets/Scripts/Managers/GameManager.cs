@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     public InventoryManager inventoryManager;
     public UIManager uiManager;
 
-    private bool _toggleTimeScale = false;
-    private bool _toggleCursorLock = true;
+    private bool _pauseTime = false;
+    private bool _isCursorVisible = true;
     
 
     // Singleton 
@@ -43,16 +43,17 @@ public class GameManager : MonoBehaviour
     // Swaps timescale from 1.0f to 0.0f
     public void ToggleTimeScale()
     {
-        _toggleTimeScale = !_toggleTimeScale;
+        _pauseTime = !_pauseTime;
 
-        float currentTimeScale = _toggleTimeScale ? 0.0f : 1.0f;
+        float currentTimeScale = _pauseTime ? 0.0f : 1.0f;
 
         Time.timeScale = currentTimeScale;
     }
 
+    // Toggle cursor lock state
     public void ToggleCursorLock()
     {
-        _toggleCursorLock = !_toggleCursorLock;
-        Cursor.lockState = _toggleCursorLock ? CursorLockMode.Locked : CursorLockMode.None;
+        _isCursorVisible = !_isCursorVisible;
+        Cursor.lockState = _isCursorVisible ? CursorLockMode.Locked : CursorLockMode.None;
     }
 }
