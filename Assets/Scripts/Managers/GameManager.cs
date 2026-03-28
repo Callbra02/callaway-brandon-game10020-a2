@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,11 +41,15 @@ public class GameManager : MonoBehaviour
         inventoryManager.OnDisplayed.AddListener(ToggleTimeScale);
         inventoryManager.OnDisplayed.AddListener(ToggleCursorLock);
         
+        // Health and stamina UI event listeners
         currenciesController.OnHealthChanged.AddListener(uiManager.UpdateHealthSlider);
         currenciesController.OnStaminaChanged.AddListener(uiManager.UpdateStaminaSlider);
+        currenciesController.OnDeath.AddListener(EndGame);
         
+        // Player collider events
         playerCollider.OnSpikeCollision.AddListener(currenciesController.TaxHealthSpike);
         playerCollider.OnHealthItemCollision.AddListener(currenciesController.OnHealthPickup);
+        playerCollider.OnFireCollisionStay.AddListener(currenciesController.TaxHealthFire);
         playerController.OnJump.AddListener(currenciesController.TaxStaminaJump);
     }
 
@@ -63,5 +68,10 @@ public class GameManager : MonoBehaviour
     {
         _isCursorVisible = !_isCursorVisible;
         Cursor.lockState = _isCursorVisible ? CursorLockMode.Locked : CursorLockMode.None;
+    }
+
+    public void EndGame()
+    {
+        SceneManager.LoadScene("Level2");
     }
 }

@@ -7,6 +7,8 @@ TagManager:
   - Obstacle
   - Spike
   - HealthItem
+  - Fire
+  - AttackCollider
   layers:
   - Default
   - TransparentFX

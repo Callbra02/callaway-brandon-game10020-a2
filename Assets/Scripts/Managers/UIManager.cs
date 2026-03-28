@@ -28,11 +28,13 @@ public class UIManager : MonoBehaviour
         inventoryObject.SetActive(_isInventoryDisplayed);
     }
 
+    // Update health slider with currencies controllers current values
     public void UpdateHealthSlider()
     {
         healthSlider.value = gameManager.currenciesController.currentHealth / gameManager.currenciesController.maxHealth;
     }
 
+    // Update stamina slider with currencies controllers current values
     public void UpdateStaminaSlider()
     {
         staminaSlider.value = gameManager.currenciesController.currentStamina / gameManager.currenciesController.maxStamina;

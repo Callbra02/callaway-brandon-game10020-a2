@@ -5,16 +5,17 @@ using UnityEngine.Events;
 
 public class PlayerCollider : MonoBehaviour
 {  
-    [HideInInspector]
-    public UnityEvent OnSpikeCollision;
+    [HideInInspector] public UnityEvent OnSpikeCollision;
 
-    [HideInInspector] 
-    public UnityEvent OnHealthItemCollision;
+    [HideInInspector] public UnityEvent OnFireCollisionStay;
+
+    [HideInInspector] public UnityEvent OnHealthItemCollision;
 
     private void Start()
     {
         OnSpikeCollision ??= new UnityEvent();
         OnHealthItemCollision ??= new UnityEvent();
+        OnFireCollisionStay ??= new UnityEvent();
     }
     
     private void OnTriggerEnter2D(Collider2D collider)
@@ -28,6 +29,14 @@ public class PlayerCollider : MonoBehaviour
         {
             OnHealthItemCollision.Invoke();
             Destroy(collider.gameObject);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Fire"))
+        {
+            OnFireCollisionStay.Invoke();
         }
     }
 }

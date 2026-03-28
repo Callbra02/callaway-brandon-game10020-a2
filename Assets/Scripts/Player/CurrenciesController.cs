@@ -6,17 +6,15 @@ using UnityEngine.Events;
 public class CurrenciesController : MonoBehaviour
 {
     public float maxHealth = 100.0f;
-    public float currentHealth { get; private set; }
+    public float currentHealth;
     public float maxStamina = 100.0f;
     public float currentStamina { get; private set; }
 
     private BoxCollider2D _boxCollider;
 
-    [HideInInspector] 
-    public UnityEvent OnHealthChanged;
-    public UnityEvent OnStaminaChanged;
-
-    public UnityEvent OnDeath;
+    [HideInInspector] public UnityEvent OnHealthChanged;
+    [HideInInspector] public UnityEvent OnStaminaChanged;
+    [HideInInspector] public UnityEvent OnDeath;
     
     // Start is called before the first frame update
     void Start()
@@ -56,7 +54,7 @@ public class CurrenciesController : MonoBehaviour
 
     public void TaxHealth(float amount)
     {
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -67,7 +65,12 @@ public class CurrenciesController : MonoBehaviour
 
     public void TaxHealthSpike()
     {
-        TaxHealth(10);
+        TaxHealth(11);
+    }
+
+    public void TaxHealthFire()
+    {
+        TaxHealth(5 * Time.deltaTime);
     }
 
     public void TaxStamina(float amount)
