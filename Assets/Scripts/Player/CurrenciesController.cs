@@ -70,7 +70,7 @@ public class CurrenciesController : MonoBehaviour
 
     public void TaxHealthFire()
     {
-        TaxHealth(5 * Time.deltaTime);
+        TaxHealth(15 * Time.deltaTime);
     }
 
     public void TaxStamina(float amount)

@@ -8,8 +8,7 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference _inventoryAction;
     
-    [HideInInspector] 
-    public UnityEvent OnDisplayed;
+    [HideInInspector] public UnityEvent OnDisplayed;
     
     void Start()
     {
@@ -29,4 +28,6 @@ public class InventoryManager : MonoBehaviour
     {
         OnDisplayed.Invoke();
     }
+
+
 }

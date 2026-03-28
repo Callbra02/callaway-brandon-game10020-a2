@@ -9,6 +9,8 @@ TagManager:
   - HealthItem
   - Fire
   - AttackCollider
+  - Collectable
+  - Inventory
   layers:
   - Default
   - TransparentFX

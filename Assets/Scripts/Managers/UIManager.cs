@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public GameManager gameManager;
     
     public GameObject inventoryObject;
+    
     public LevelOrb levelOrb;
     private bool _isInventoryDisplayed = false;
 

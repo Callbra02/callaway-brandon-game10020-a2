@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         inventoryManager.OnDisplayed.AddListener(uiManager.SetInventoryActive);
         inventoryManager.OnDisplayed.AddListener(ToggleTimeScale);
         inventoryManager.OnDisplayed.AddListener(ToggleCursorLock);
-        
+
         // Health and stamina UI event listeners
         currenciesController.OnHealthChanged.AddListener(uiManager.UpdateHealthSlider);
         currenciesController.OnStaminaChanged.AddListener(uiManager.UpdateStaminaSlider);
@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
         playerCollider.OnSpikeCollision.AddListener(currenciesController.TaxHealthSpike);
         playerCollider.OnHealthItemCollision.AddListener(currenciesController.OnHealthPickup);
         playerCollider.OnFireCollisionStay.AddListener(currenciesController.TaxHealthFire);
+
+        
         playerController.OnJump.AddListener(currenciesController.TaxStaminaJump);
     }
 
