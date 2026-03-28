@@ -8,9 +8,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public PlayerController playerController;
-
     public InventoryManager inventoryManager;
     public UIManager uiManager;
+    public CurrenciesController currenciesController;
+    public PlayerCollider playerCollider;
 
     private bool _pauseTime = false;
     private bool _isCursorVisible = true;
@@ -31,13 +32,20 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         Cursor.lockState = CursorLockMode.Locked;
+        playerCollider = playerController.gameObject.GetComponentInChildren<PlayerCollider>();
         
         // Event Listeners
         inventoryManager.OnDisplayed.AddListener(uiManager.SetInventoryActive);
         inventoryManager.OnDisplayed.AddListener(ToggleTimeScale);
         inventoryManager.OnDisplayed.AddListener(ToggleCursorLock);
+        
+        currenciesController.OnHealthChanged.AddListener(uiManager.UpdateHealthSlider);
+        currenciesController.OnStaminaChanged.AddListener(uiManager.UpdateStaminaSlider);
+        
+        playerCollider.OnSpikeCollision.AddListener(currenciesController.TaxHealthSpike);
+        playerCollider.OnHealthItemCollision.AddListener(currenciesController.OnHealthPickup);
+        playerController.OnJump.AddListener(currenciesController.TaxStaminaJump);
     }
 
     // Swaps timescale from 1.0f to 0.0f

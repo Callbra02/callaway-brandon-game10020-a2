@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -24,13 +25,14 @@ public class PlayerController : MonoBehaviour
     private Vector2 _defaultColliderSize;
     private Vector2 _defaultColliderOffset;
     public float crouchHeightMultiplier = 0.5f;
-    public float crouchOffsetMultiplier = 0.0f;
     
     private bool _isGrounded = false;
     private bool _doJump = false;
     private bool _isCrouching = false;
     public bool isAttacking = false;
     public bool canMove = true;
+
+    [HideInInspector] public UnityEvent OnJump;
     
     private void Start()
     {
@@ -47,6 +49,8 @@ public class PlayerController : MonoBehaviour
         // Get collider defaults
         _defaultColliderSize = _collider.size;
         _defaultColliderOffset = _collider.offset;
+        
+        OnJump ??= new UnityEvent();
     }
     
     private void FixedUpdate()
@@ -86,17 +90,20 @@ public class PlayerController : MonoBehaviour
 
         if (_jumpAction.action.WasPressedThisFrame())
         {
+            OnJump.Invoke();
             _doJump = true;
         }
     }
 
     private void HandleCrouch()
     {
+        // Break from logic if we are not grounded or currently attacking
         if (!_isGrounded || isAttacking)
         {
             return;
         }
         
+        // Prevent movement during crouch, change collider size, and set bool accordingly
         if (_isCrouching)
         {
             canMove = false;
@@ -115,7 +122,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleSprite()
     {
-
         // Update isMoving bool according to movement velocity
         if (_wishVelocity.x == 0)
         {
